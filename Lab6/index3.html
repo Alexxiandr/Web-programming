@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <title>Лабораторна робота №6 - Завдання 3 (Зоотовари)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #1b4332;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #555555;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        /* Стилі оформлення таблиці товарів */
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+            margin: 0 auto;
+        }
+
+        .product-table th, .product-table td {
+            border: 1px solid #dcdcdc;
+            padding: 12px 16px;
+            text-align: center;
+        }
+
+        .product-table thead tr {
+            background-color: #1b4332;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .product-table tbody tr:nth-child(even) {
+            background-color: #f9fbf9;
+        }
+
+        .product-table tbody tr:hover {
+            background-color: #e8f5e9;
+        }
+
+        .product-table td.prod-name {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        /* Підсумковий рядок «Всього» */
+        .product-table tfoot tr {
+            background-color: #eaf4ed;
+            font-weight: bold;
+        }
+
+        .product-table tfoot td.total-label {
+            text-align: right;
+            font-size: 16px;
+            color: #1b4332;
+            letter-spacing: 0.5px;
+        }
+
+        .product-table tfoot td.total-val {
+            color: #2d6a4f;
+            font-size: 17px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Зоомаркет «Лапка» – Відомість замовлення</h2>
+        <p class="subtitle">Завдання 3: Робота з масивами та розрахунками</p>
+
+        <script>
+            const products = [
+                { code: "ZT-101", name: "Сухий корм для котів Optimeal 1.5 кг", price: 480, quantity: 3 },
+                { code: "ZT-102", name: "Консерви для собак Brit Care 400 г", price: 95, quantity: 8 },
+                { code: "ZT-103", name: "Дряпка-стовпчик з хутряною площадкою", price: 650, quantity: 2 },
+                { code: "ZT-104", name: "Гігієнічний наповнювач для туалету 5 кг", price: 210, quantity: 4 },
+                { code: "ZT-105", name: "М'який ортопедичний лежак для тварин", price: 890, quantity: 1 }
+            ];
+
+            let totalSum = 0;
+
+            let table = '<table class="product-table">';
+            table += '<thead><tr>' +
+                        '<th>Код</th>' +
+                        '<th>Найменування товару</th>' +
+                        '<th>Ціна за од. (грн)</th>' +
+                        '<th>Кількість</th>' +
+                        '<th>Сума (грн)</th>' +
+                     '</tr></thead>';
+            table += '<tbody>';
+
+            for (let i = 0; i < products.length; i++) {
+                let item = products[i];
+                let itemSum = item.price * item.quantity;
+                totalSum += itemSum;
+
+                table += '<tr>' +
+                            '<td>' + item.code + '</td>' +
+                            '<td class="prod-name">' + item.name + '</td>' +
+                            '<td>' + item.price.toFixed(2) + '</td>' +
+                            '<td>' + item.quantity + '</td>' +
+                            '<td>' + itemSum.toFixed(2) + '</td>' +
+                         '</tr>';
+            }
+
+            table += '</tbody>';
+            table += '<tfoot><tr>' +
+                        '<td colspan="4" class="total-label">Всього:</td>' +
+                        '<td class="total-val">' + totalSum.toFixed(2) + ' грн</td>' +
+                     '</tr></tfoot>';
+            table += '</table>';
+
+            document.write(table);
+        </script>
+    </div>
+
+</body>
+</html>

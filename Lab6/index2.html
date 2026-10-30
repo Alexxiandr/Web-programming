@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <title>Завдання 2 (Варіант 2)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        h2 {
+            color: #1b4332;
+            margin-bottom: 35px;
+        }
+
+        .ladder-item {
+            margin: 12px auto;
+            padding: 12px 0;
+            background-color: #38ef7d;
+            background: linear-gradient(135deg, #40c9a2, #2ec4b6);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            border: 1px dashed #1b4332;
+            border-radius: 4px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .ladder-item:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Завдання 2. Виведення абзаців драбинкою</h2>
+
+        <script>
+            const totalSteps = 5;
+            const minWidth = 200;
+            const maxWidth = 600;
+            const step = (maxWidth - minWidth) / (totalSteps - 1);
+
+            for (let i = 1; i <= totalSteps; i++) {
+                let currentWidth = minWidth + (i - 1) * step;
+                document.write('<p class="ladder-item" style="width: ' + currentWidth + 'px;">Абзац ' + i + '</p>');
+            }
+        </script>
+    </div>
+
+</body>
+</html>
