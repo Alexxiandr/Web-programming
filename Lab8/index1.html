@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <title>Зоомаркет «Лапка» — Функціональні таби (Завдання 1)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f6f8f5;
+            margin: 0;
+            padding: 50px 20px;
+            color: #2b2d42;
+        }
+
+        .wrapper {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #1b4332;
+            margin-bottom: 25px;
+            font-size: 26px;
+        }
+
+        .tabs-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .tab-btn {
+            width: 20%;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            border: 1px solid #d8e2dc;
+            background-color: #e8f5e9;
+            color: #1b4332;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #b7e4c7;
+        }
+
+        .tab-content-cell {
+            padding: 30px;
+            border: 1px solid #d8e2dc;
+            background-color: #ffffff;
+            vertical-align: top;
+        }
+
+        .tab-inner {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .tab-inner img {
+            width: 260px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #2d6a4f;
+            flex-shrink: 0;
+        }
+
+        .tab-text h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #1b4332;
+            font-size: 22px;
+        }
+
+        .tab-text p {
+            margin-bottom: 14px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .tab-text ul {
+            margin: 0 0 16px 20px;
+            padding: 0;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #ffd166;
+            color: #1b4332;
+            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <h2 class="page-title">Зоомаркет «Лапка» — Категорії товарів</h2>
+
+        <table class="tabs-table">
+            <tr>
+                <td id="tab1" class="tab-btn" onclick="openTab(1)">Корми для котів</td>
+                <td id="tab2" class="tab-btn" onclick="openTab(2)">Товари для собак</td>
+                <td id="tab3" class="tab-btn" onclick="openTab(3)">Гризуни</td>
+                <td id="tab4" class="tab-btn" onclick="openTab(4)">Птахи</td>
+                <td id="tab5" class="tab-btn" onclick="openTab(5)">Догляд та гігієна</td>
+            </tr>
+            <tr>
+                <td colspan="5" id="tabContent" class="tab-content-cell"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        const tabsData = {
+            1: {
+                title: "Збалансовані корми для котів",
+                description: "Повнораціонні сухі та вологі корми супер-преміум та холістик класу для кошенят, дорослих і стерилізованих котів.",
+                items: [
+                    "Сухі раціони з високим вмістом свіжого м'яса та лосося",
+                    "Ніжні паштети та шматочки в соусі без штучних барвників",
+                    "Спеціалізовані дієти для чутливого травлення"
+                ],
+                price: "Ціни від 45 грн",
+                img: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400&h=300&fit=crop"
+            },
+            2: {
+                title: "Все для активних собак",
+                description: "Якісне харчування, міцна амуніція та розвивальні іграшки для собак малих, середніх і великих порід.",
+                items: [
+                    "М'ясні консерви та сухі корми для підтримки суглобів і шерсті",
+                    "Надійні повідці-рулетки, шлейки та нашийники",
+                    "Інтерактивні м'ячі та жувальні ласощі для тренувань"
+                ],
+                price: "Ціни від 85 грн",
+                img: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=300&fit=crop"
+            },
+            3: {
+                title: "Товари та ласощі для гризунів",
+                description: "Комфортне середовище та вітамінізовані суміші для хом'яків, морських свинок, шиншил і декоративних кроликів.",
+                items: [
+                    "Зернові суміші, лугове сіно та мінеральні камені",
+                    "Натуральні дерев'яні будиночки, бігові колеса та тунелі",
+                    "Безпечна целюлозна та тирсова підстилка"
+                ],
+                price: "Ціни від 60 грн",
+                img: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=400&h=300&fit=crop"
+            },
+            4: {
+                title: "Обладнання та корми для птахів",
+                description: "Просторі клітки, збалансовані зернові раціони та ігрові аксесуари для хвилястих папуг, корел і канарок.",
+                items: [
+                    "Клітки з висувним піддоном та зручними годівницями",
+                    "Вітамінізовані зернові суміші та колоски з фруктами",
+                    "Жердинки, гойдалки та дзеркальця для дозвілля"
+                ],
+                price: "Ціни від 55 грн",
+                img: "https://images.unsplash.com/photo-1522858547137-f1dcec554f55?w=400&h=300&fit=crop"
+            },
+            5: {
+                title: "Професійний догляд та гігієна",
+                description: "Засоби для підтримки чистоти, здоров'я шкіри та блискучої шерсті ваших домашніх улюбленців.",
+                items: [
+                    "Гіпоалергенні шампуні, кондиціонери та спреї для розчісування",
+                    "Кігтерізи, пуходерки та щітки для вичісування підшерстя",
+                    "Комкуючі та силікагелеві наповнювачі з контролем запаху"
+                ],
+                price: "Ціни від 110 грн",
+                img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=400&h=300&fit=crop"
+            }
+        };
+
+        function openTab(tabNumber) {
+            for (let i = 1; i <= 5; i++) {
+                const tabElement = document.getElementById("tab" + i);
+                tabElement.style.backgroundColor = "#e8f5e9";
+                tabElement.style.color = "#1b4332";
+            }
+
+            const activeTab = document.getElementById("tab" + tabNumber);
+            activeTab.style.backgroundColor = "#2d6a4f";
+            activeTab.style.color = "#ffffff";
+
+            const data = tabsData[tabNumber];
+            let listHtml = "<ul>";
+            for (let j = 0; j < data.items.length; j++) {
+                listHtml += "<li>" + data.items[j] + "</li>";
+            }
+            listHtml += "</ul>";
+
+            document.getElementById("tabContent").innerHTML =
+                '<div class="tab-inner">' +
+                    '<img src="' + data.img + '" alt="' + data.title + '">' +
+                    '<div class="tab-text">' +
+                        '<h3>' + data.title + '</h3>' +
+                        '<p>' + data.description + '</p>' +
+                        listHtml +
+                        '<span class="badge">' + data.price + '</span>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        openTab(1);
+    </script>
+
+</body>
+</html>

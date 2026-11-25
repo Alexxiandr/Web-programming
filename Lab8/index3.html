@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <title>Зоомаркет «Лапка» — Авторизація та реєстрація (Завдання 4–5)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f6f8f5;
+            margin: 0;
+            padding: 40px 20px;
+            color: #2b2d42;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #1b4332;
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #52796f;
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+
+        .forms-container {
+            max-width: 980px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .form-card {
+            flex: 1;
+            min-width: 320px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid #2d6a4f;
+        }
+
+        .form-card h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #1b4332;
+            font-size: 21px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #1b4332;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2d6a4f;
+            box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+        }
+
+        .form-group input.input-error,
+        .form-group select.input-error {
+            border-color: #d90429;
+            background-color: #fff8f8;
+        }
+
+        .error-msg {
+            display: block;
+            color: #d90429;
+            font-size: 12px;
+            margin-top: 4px;
+            min-height: 16px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #334155;
+        }
+
+        .checkbox-group input {
+            width: 16px;
+            height: 16px;
+            accent-color: #2d6a4f;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #2d6a4f;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #1b4332;
+            color: #ffd166;
+        }
+
+        .success-box {
+            display: none;
+            margin-top: 16px;
+            padding: 12px 14px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #2d6a4f;
+            color: #1b4332;
+            font-size: 14px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 class="page-title">Зоомаркет «Лапка» — Особистий кабінет</h2>
+    <p class="page-subtitle">Авторизація та реєстрація учасників бонусної програми для власників тварин</p>
+
+    <div class="forms-container">
+        <div class="form-card">
+            <h3>Вхід у кабінет</h3>
+            <form id="loginForm" onsubmit="return validateLogin(event)" novalidate>
+                <div class="form-group">
+                    <label for="loginEmail">Електронна пошта (Email):</label>
+                    <input type="text" id="loginEmail" placeholder="example@gmail.com">
+                    <span class="error-msg" id="loginEmailErr"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Пароль:</label>
+                    <input type="password" id="loginPassword" placeholder="Введіть пароль">
+                    <span class="error-msg" id="loginPasswordErr"></span>
+                </div>
+
+                <button type="submit" class="btn-submit">Увійти</button>
+                <div class="success-box" id="loginSuccess"></div>
+            </form>
+        </div>
+
+        <div class="form-card">
+            <h3>Реєстрація покупця</h3>
+            <form id="registerForm" onsubmit="return validateRegister(event)" novalidate>
+                <div class="form-group">
+                    <label for="regName">Ім'я та прізвище:</label>
+                    <input type="text" id="regName" placeholder="Олександр Борзаниця">
+                    <span class="error-msg" id="regNameErr"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="regEmail">Електронна пошта (Email):</label>
+                    <input type="text" id="regEmail" placeholder="yourmail@gmail.com">
+                    <span class="error-msg" id="regEmailErr"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="regPhone">Номер телефону:</label>
+                    <input type="text" id="regPhone" placeholder="+380501234567">
+                    <span class="error-msg" id="regPhoneErr"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="regPet">Ваш домашній улюбленець:</label>
+                    <select id="regPet">
+                        <option value="">-- Оберіть тваринку --</option>
+                        <option value="Кіт">Кіт / Кішка</option>
+                        <option value="Собака">Собака</option>
+                        <option value="Гризун">Гризун</option>
+                        <option value="Птах">Птах</option>
+                        <option value="Інше">Інший улюбленець</option>
+                    </select>
+                    <span class="error-msg" id="regPetErr"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="regPassword">Пароль (мінімум 6 символів):</label>
+                    <input type="password" id="regPassword" placeholder="Створіть надійний пароль">
+                    <span class="error-msg" id="regPasswordErr"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="regConfirm">Підтвердження пароля:</label>
+                    <input type="password" id="regConfirm" placeholder="Повторіть пароль">
+                    <span class="error-msg" id="regConfirmErr"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="regAgree">
+                        Погоджуюсь з умовами бонусної програми «Лапка»
+                    </label>
+                    <span class="error-msg" id="regAgreeErr"></span>
+                </div>
+
+                <button type="submit" class="btn-submit">Зареєструватися</button>
+                <div class="success-box" id="regSuccess"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const phoneRegex = /^(\+?38)?0\d{9}$/;
+
+        function setError(inputId, errorId, message) {
+            const input = document.getElementById(inputId);
+            const errorSpan = document.getElementById(errorId);
+            if (message) {
+                input.classList.add("input-error");
+                errorSpan.innerHTML = "* " + message;
+            } else {
+                input.classList.remove("input-error");
+                errorSpan.innerHTML = "";
+            }
+        }
+
+        function validateLogin(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value;
+            const successBox = document.getElementById("loginSuccess");
+            successBox.style.display = "none";
+
+            if (email === "") {
+                setError("loginEmail", "loginEmailErr", "Введіть електронну пошту");
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                setError("loginEmail", "loginEmailErr", "Некоректний формат Email");
+                isValid = false;
+            } else {
+                setError("loginEmail", "loginEmailErr", "");
+            }
+
+            if (password === "") {
+                setError("loginPassword", "loginPasswordErr", "Введіть пароль");
+                isValid = false;
+            } else if (password.length < 6) {
+                setError("loginPassword", "loginPasswordErr", "Пароль має містити мінімум 6 символів");
+                isValid = false;
+            } else {
+                setError("loginPassword", "loginPasswordErr", "");
+            }
+
+            if (isValid) {
+                successBox.innerHTML = "Авторизація успішна! Вітаємо у Зоомаркеті «Лапка».";
+                successBox.style.display = "block";
+            }
+
+            return isValid;
+        }
+
+        function validateRegister(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            const name = document.getElementById("regName").value.trim();
+            const email = document.getElementById("regEmail").value.trim();
+            const phoneRaw = document.getElementById("regPhone").value.trim();
+            const phoneClean = phoneRaw.replace(/[\s\-()]/g, "");
+            const pet = document.getElementById("regPet").value;
+            const password = document.getElementById("regPassword").value;
+            const confirm = document.getElementById("regConfirm").value;
+            const agree = document.getElementById("regAgree").checked;
+
+            const successBox = document.getElementById("regSuccess");
+            successBox.style.display = "none";
+
+            if (name === "") {
+                setError("regName", "regNameErr", "Дане поле обов'язкове для заповнення");
+                isValid = false;
+            } else if (name.length < 2) {
+                setError("regName", "regNameErr", "Ім'я повинно містити щонайменше 2 символи");
+                isValid = false;
+            } else {
+                setError("regName", "regNameErr", "");
+            }
+
+            if (email === "") {
+                setError("regEmail", "regEmailErr", "Введіть електронну пошту");
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                setError("regEmail", "regEmailErr", "Введіть коректну адресу (наприклад, user@gmail.com)");
+                isValid = false;
+            } else {
+                setError("regEmail", "regEmailErr", "");
+            }
+
+            if (phoneRaw === "") {
+                setError("regPhone", "regPhoneErr", "Введіть номер телефону");
+                isValid = false;
+            } else if (!phoneRegex.test(phoneClean)) {
+                setError("regPhone", "regPhoneErr", "Введіть номер у форматі +380XXXXXXXXX або 0XXXXXXXXX");
+                isValid = false;
+            } else {
+                setError("regPhone", "regPhoneErr", "");
+            }
+
+            if (pet === "") {
+                setError("regPet", "regPetErr", "Оберіть вид вашого улюбленця");
+                isValid = false;
+            } else {
+                setError("regPet", "regPetErr", "");
+            }
+
+            if (password === "") {
+                setError("regPassword", "regPasswordErr", "Створіть пароль");
+                isValid = false;
+            } else if (password.length < 6) {
+                setError("regPassword", "regPasswordErr", "Пароль має містити не менше 6 символів");
+                isValid = false;
+            } else {
+                setError("regPassword", "regPasswordErr", "");
+            }
+
+            if (confirm === "") {
+                setError("regConfirm", "regConfirmErr", "Підтвердіть пароль");
+                isValid = false;
+            } else if (confirm !== password) {
+                setError("regConfirm", "regConfirmErr", "Паролі не збігаються");
+                isValid = false;
+            } else {
+                setError("regConfirm", "regConfirmErr", "");
+            }
+
+            const agreeErr = document.getElementById("regAgreeErr");
+            if (!agree) {
+                agreeErr.innerHTML = "* Необхідно погодитися з умовами програми";
+                isValid = false;
+            } else {
+                agreeErr.innerHTML = "";
+            }
+
+            if (isValid) {
+                successBox.innerHTML = "Реєстрацію завершено, " + name + "! Бонусну картку «Лапка» активовано.";
+                successBox.style.display = "block";
+            }
+
+            return isValid;
+        }
+    </script>
+
+</body>
+</html>
