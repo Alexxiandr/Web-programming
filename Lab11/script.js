@@ -1,0 +1,229 @@
+$(document).ready(function () {
+    let loadedProducts = [];
+
+    const fallbackData = [
+        {
+            id: 1,
+            title: "Сухий повнораціонний корм для котів 1.5 кг",
+            category: "Корми для котів",
+            categorySlug: "cats",
+            price: 485,
+            stock: 14,
+            description: "Збалансований сухий корм супер-преміум класу для дорослих котів. Містить вітаміни, мінерали та таурин для підтримки здоров'я та блискучої шерсті.",
+            image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400&h=300&fit=crop"
+        },
+        {
+            id: 2,
+            title: "Гігієнічний комкуючий наповнювач 5 кг",
+            category: "Корми для котів",
+            categorySlug: "cats",
+            price: 220,
+            stock: 25,
+            description: "Натуральний наповнювач з дрібною гранулою. Швидко утворює міцні грудочки, надійно утримує вологу та блокує неприємні запахи.",
+            image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=300&fit=crop"
+        },
+        {
+            id: 3,
+            title: "Дряпка-стовпчик із сизалевою обмоткою",
+            category: "Корми для котів",
+            categorySlug: "cats",
+            price: 640,
+            stock: 7,
+            description: "Стійка кігтеточка висотою 65 см із натурального сизалю та м'якою основою. Захищає меблі та допомагає коту сточувати кігті.",
+            image: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400&h=300&fit=crop"
+        },
+        {
+            id: 4,
+            title: "М'ясні консерви для собак 400 г",
+            category: "Товари для собак",
+            categorySlug: "dogs",
+            price: 98,
+            stock: 32,
+            description: "Повнораціонний вологий корм із високим вмістом натурального м'яса без злаків та штучних барвників. Підходить для щоденного годування.",
+            image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=300&fit=crop"
+        },
+        {
+            id: 5,
+            title: "Повідець-рулетка автоматичний (5 м)",
+            category: "Товари для собак",
+            categorySlug: "dogs",
+            price: 410,
+            stock: 11,
+            description: "Ергономічний повідець-рулетка зі стрічкою довжиною 5 метрів для комфортних прогулянок. Оснащений надійним механізмом фіксації.",
+            image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&h=300&fit=crop"
+        },
+        {
+            id: 6,
+            title: "М'який ортопедичний лежак для тварин",
+            category: "Товари для собак",
+            categorySlug: "dogs",
+            price: 890,
+            stock: 5,
+            description: "Затишне спальне місце з м'якими бортиками та гіпоалергенним наповнювачем. Зовнішній чохол легко очищується від шерсті.",
+            image: "https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?w=400&h=300&fit=crop"
+        },
+        {
+            id: 7,
+            title: "Іграшка-м'яч для активних ігор",
+            category: "Товари для собак",
+            categorySlug: "dogs",
+            price: 165,
+            stock: 19,
+            description: "Міцний пружний м'яч із рельєфною поверхнею для тренувань і рухливих ігор на свіжому повітрі.",
+            image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=400&h=300&fit=crop"
+        },
+        {
+            id: 8,
+            title: "Зернові ласощі та суміш для гризунів",
+            category: "Гризуни та птахи",
+            categorySlug: "small-pets",
+            price: 115,
+            stock: 22,
+            description: "Збалансований зерновий мікс із добірних злаків, сушених овочів та насіння для хом'яків, морських свинок і декоративних кроликів.",
+            image: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=400&h=300&fit=crop"
+        },
+        {
+            id: 9,
+            title: "Клітка для хвилястих папуг з аксесуарами",
+            category: "Гризуни та птахи",
+            categorySlug: "small-pets",
+            price: 1150,
+            stock: 4,
+            description: "Простора клітка з висувним піддоном для швидкого прибирання, двома годівницями та дерев'яними жердинками.",
+            image: "https://images.unsplash.com/photo-1522858547137-f1dcec554f55?w=400&h=300&fit=crop"
+        },
+        {
+            id: 10,
+            title: "Гіпоалергенний шампунь для шерсті 250 мл",
+            category: "Догляд та гігієна",
+            categorySlug: "care",
+            price: 195,
+            stock: 16,
+            description: "М'який шампунь із натуральними екстрактами для делікатного очищення шкіри, легкого розчісування та здорового блиску шерсті.",
+            image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=400&h=300&fit=crop"
+        },
+        {
+            id: 11,
+            title: "Подвійна миска на нековзкій підставці",
+            category: "Догляд та гігієна",
+            categorySlug: "care",
+            price: 320,
+            stock: 9,
+            description: "Зручний набір із двох чаш для корму та води. Стійка основа запобігає перевертанню миски під час годування.",
+            image: "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=400&h=300&fit=crop"
+        },
+        {
+            id: 12,
+            title: "Вітамінно-мінеральний комплекс для імунітету",
+            category: "Догляд та гігієна",
+            categorySlug: "care",
+            price: 275,
+            stock: 13,
+            description: "Курсова вітамінна добавка для зміцнення імунітету, суглобів та покращення стану шерсті домашніх улюбленців.",
+            image: "https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400&h=300&fit=crop"
+        }
+    ];
+
+    $.getJSON('products.json')
+        .done(function (data) {
+            loadedProducts = data;
+            renderCards(loadedProducts);
+        })
+        .fail(function () {
+            loadedProducts = fallbackData;
+            renderCards(loadedProducts);
+        });
+
+    function renderCards(items) {
+        const $grid = $('#productsGrid');
+        $grid.empty();
+
+        $.each(items, function (index, item) {
+            const $card = $(`
+                <div class="product-card" data-category="${item.categorySlug}" data-id="${item.id}">
+                    <div>
+                        <img src="${item.image}" alt="${item.title}">
+                        <span class="cat-badge">${item.category}</span>
+                        <h4>${item.title}</h4>
+                        <p class="product-desc">${item.description}</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="product-price">${item.price} грн</span>
+                        <button class="btn-details" data-id="${item.id}">Детальніше</button>
+                    </div>
+                </div>
+            `);
+            $grid.append($card);
+        });
+
+        applyFilters();
+    }
+
+    function applyFilters() {
+        const searchQuery = $('#searchInput').val().toLowerCase().trim();
+        const activeCategory = $('.category-btn.active').data('category');
+        const $allCards = $('.product-card');
+
+        $allCards.hide();
+
+        const $matchedCards = $allCards.filter(function () {
+            const cardCategory = $(this).data('category');
+            const cardContent = $(this).text().toLowerCase();
+
+            const isCategoryMatch = (activeCategory === 'all' || cardCategory === activeCategory);
+            const isSearchMatch = cardContent.indexOf(searchQuery) !== -1;
+
+            return isCategoryMatch && isSearchMatch;
+        });
+
+        $matchedCards.show();
+        $('#productsCount').text('Знайдено товарів: ' + $matchedCards.length);
+        $('#emptyMessage').toggle($matchedCards.length === 0);
+    }
+
+    $('#searchInput').on('input', function () {
+        applyFilters();
+    });
+
+    $('.category-btn').on('click', function () {
+        $('.category-btn').removeClass('active');
+        $(this).addClass('active');
+        applyFilters();
+    });
+
+    $('#clearSearch').on('click', function () {
+        $('#searchInput').val('');
+        $('.category-btn').removeClass('active');
+        $('.category-btn[data-category="all"]').addClass('active');
+        applyFilters();
+    });
+
+    $('#productsGrid').on('click', '.btn-details', function () {
+        const productId = $(this).data('id');
+        const product = loadedProducts.find(p => p.id === productId);
+
+        if (product) {
+            $('#modalBody').html(`
+                <img src="${product.image}" alt="${product.title}">
+                <span class="cat-badge">${product.category}</span>
+                <h3>${product.title}</h3>
+                <p>${product.description}</p>
+                <div class="modal-specs">
+                    <span>Ціна: ${product.price} грн</span>
+                    <span>На складі: ${product.stock} шт.</span>
+                </div>
+            `);
+            $('#productModal').css('display', 'flex').hide().fadeIn(200);
+        }
+    });
+
+    $('#closeModal').on('click', function () {
+        $('#productModal').fadeOut(150);
+    });
+
+    $('#productModal').on('click', function (e) {
+        if ($(e.target).is('#productModal')) {
+            $('#productModal').fadeOut(150);
+        }
+    });
+});
