@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <title>Зоомаркет «Лапка» — Каталог та кошик</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f6f8f5;
+            margin: 0;
+            padding: 35px 20px;
+            color: #2b2d42;
+        }
+
+        .header-bar {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            background: linear-gradient(135deg, #1b4332, #2d6a4f);
+            color: #ffffff;
+            padding: 22px 30px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-bar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+        }
+
+        .catalog-section {
+            flex: 2;
+        }
+
+        .section-title {
+            margin-top: 0;
+            margin-bottom: 18px;
+            color: #1b4332;
+            font-size: 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-top: 4px solid #40916c;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            align-self: flex-start;
+            background-color: #e8f5e9;
+            color: #2d6a4f;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 15px;
+            color: #1b4332;
+            line-height: 1.4;
+        }
+
+        .stock-info {
+            margin: 0 0 12px 0;
+            font-size: 13px;
+            color: #52796f;
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 10px;
+            background-color: #2d6a4f;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-add:hover:not(:disabled) {
+            background-color: #1b4332;
+            color: #ffd166;
+        }
+
+        .btn-add:disabled {
+            background-color: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        .basket-section {
+            flex: 1;
+            min-width: 340px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #1b4332;
+        }
+
+        .basket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .basket-header h3 {
+            margin: 0;
+            color: #1b4332;
+            font-size: 19px;
+        }
+
+        .basket-counter {
+            background-color: #ffd166;
+            color: #1b4332;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .empty-msg {
+            color: #64748b;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .basket-item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8faf9;
+            border: 1px solid #d8e2dc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .basket-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .basket-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .basket-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1b4332;
+            margin-bottom: 4px;
+        }
+
+        .basket-meta {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+            font-size: 11px;
+            color: #475569;
+        }
+
+        .cat-tag {
+            background-color: #d8f3dc;
+            color: #1b4332;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .btn-remove {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-remove:hover {
+            background-color: #dc2626;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <h1>Зоомаркет «Лапка» — Каталог та кошик</h1>
+    </div>
+
+    <div class="layout">
+        <div class="catalog-section">
+            <h2 class="section-title">Товари в наявності</h2>
+            <div id="products-grid" class="products-grid"></div>
+        </div>
+
+        <div class="basket-section">
+            <div class="basket-header">
+                <h3>Кошик покупця</h3>
+                <span class="basket-counter">Товарів: <span id="basket-count">0</span></span>
+            </div>
+            <div id="basket-list"></div>
+        </div>
+    </div>
+
+    <script src="store.js"></script>
+</body>
+</html>
