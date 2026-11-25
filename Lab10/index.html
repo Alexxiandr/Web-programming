@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зоомаркет «Лапка» — Каталог товарів (API)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f6f8f5;
+            margin: 0;
+            padding: 30px 20px;
+            color: #2b2d42;
+        }
+
+        .header-bar {
+            max-width: 1240px;
+            margin: 0 auto 28px auto;
+            background: linear-gradient(135deg, #1b4332, #2d6a4f);
+            color: #ffffff;
+            padding: 22px 30px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-bar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .main-layout {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+        }
+
+        .sidebar {
+            width: 270px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .categories-box {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            border-top: 4px solid #2d6a4f;
+        }
+
+        .categories-box h3 {
+            margin: 0 0 14px 0;
+            font-size: 18px;
+            color: #1b4332;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .categories-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            max-height: 460px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .category-btn {
+            width: 100%;
+            text-align: left;
+            padding: 9px 12px;
+            background-color: #f8faf9;
+            border: 1px solid #d8e2dc;
+            border-radius: 6px;
+            color: #1b4332;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-transform: capitalize;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .category-btn:hover {
+            background-color: #d8f3dc;
+        }
+
+        .category-btn.active {
+            background-color: #2d6a4f;
+            color: #ffffff;
+            border-color: #1b4332;
+            font-weight: 600;
+        }
+
+        .see-all-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #1b4332;
+            color: #ffd166;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
+            transition: background-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .see-all-btn:hover {
+            background-color: #2d6a4f;
+            transform: translateY(-2px);
+        }
+
+        /* Права частина: сітка товарів */
+        .catalog-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .catalog-header {
+            background-color: #ffffff;
+            padding: 16px 22px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .catalog-header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #1b4332;
+            text-transform: capitalize;
+        }
+
+        .products-count {
+            background-color: #e8f5e9;
+            color: #1b4332;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-top: 4px solid #40916c;
+            transition: transform 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: contain;
+            background-color: #f8faf9;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            padding: 6px;
+        }
+
+        .cat-badge {
+            display: inline-block;
+            align-self: flex-start;
+            background-color: #e8f5e9;
+            color: #2d6a4f;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-card h4 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+            color: #1b4332;
+            line-height: 1.35;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: #2d6a4f;
+            font-size: 17px;
+        }
+
+        .product-rating {
+            color: #d97706;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .btn-details {
+            width: 100%;
+            padding: 9px;
+            background-color: #2d6a4f;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-details:hover {
+            background-color: #1b4332;
+            color: #ffd166;
+        }
+
+        .status-msg {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            color: #52796f;
+            font-size: 16px;
+        }
+
+        /* Модальне вікно для fetchProductById */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .modal-box {
+            background-color: #ffffff;
+            max-width: 520px;
+            width: 100%;
+            border-radius: 12px;
+            padding: 26px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #1b4332;
+        }
+
+        .modal-body img {
+            width: 100%;
+            height: 220px;
+            object-fit: contain;
+            background-color: #f8faf9;
+            border-radius: 8px;
+            margin-bottom: 14px;
+        }
+
+        .modal-body h3 {
+            margin: 0 0 10px 0;
+            color: #1b4332;
+        }
+
+        .modal-body p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #475569;
+            margin-bottom: 14px;
+        }
+
+        .modal-specs {
+            background-color: #f6f8f5;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            color: #1b4332;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <h1>Зоомаркет «Лапка» — Асинхронний каталог товарів</h1>
+    </div>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <div class="categories-box">
+                <h3>List of categories</h3>
+                <ul id="categories-list" class="categories-list">
+                    <li>Завантаження категорій...</li>
+                </ul>
+            </div>
+
+            <button id="see-all-btn" class="see-all-btn" onclick="fetchProducts()">
+                See all products
+            </button>
+        </aside>
+
+        <main class="catalog-area">
+            <div class="catalog-header">
+                <h2 id="catalog-title">All products</h2>
+                <span id="products-count" class="products-count">Товарів: 0</span>
+            </div>
+
+            <div id="products-grid" class="products-grid">
+                <div class="status-msg">Завантаження товарів...</div>
+            </div>
+        </main>
+    </div>
+
+    <div id="product-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-box">
+            <button class="modal-close" onclick="document.getElementById('product-modal').style.display='none'">&times;</button>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="index.js" defer></script>
+</body>
+</html>
