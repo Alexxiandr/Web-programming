@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <title>Лабораторна робота №7 - Завдання 1</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 50px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 750px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #1b4332;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #dcdcdc;
+            padding: 12px 14px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #1b4332;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9fbf9;
+        }
+
+        .code-cell {
+            font-family: Consolas, monospace;
+            font-weight: 600;
+            color: #0b5394;
+            text-align: left;
+        }
+
+        .status-ok {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Лабораторна робота №7 – Завдання 1</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Виклик функції</th>
+                    <th>К-сть аргументів</th>
+                    <th>Операція</th>
+                    <th>Отриманий результат</th>
+                </tr>
+            </thead>
+            <tbody id="results-body">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function sumOrMinus() {
+            if (arguments.length === 0) return 0;
+
+            if (arguments.length % 2 === 0) {
+                let sum = 0;
+                for (let i = 0; i < arguments.length; i++) {
+                    sum += arguments[i];
+                }
+                return sum;
+            } 
+
+            else {
+                let result = arguments[arguments.length - 1];
+                for (let i = arguments.length - 2; i >= 0; i--) {
+                    result -= arguments[i];
+                }
+                return result;
+            }
+        }
+
+        const tests = [
+            { call: "sumOrMinus(1, 2, 3)", args: [1, 2, 3]},
+            { call: "sumOrMinus(2, 5, 8, 4)", args: [2, 5, 8, 4]},
+            { call: "sumOrMinus(8, 1, 2)", args: [8, 1, 2]}
+        ];
+
+        const tbody = document.getElementById("results-body");
+
+        tests.forEach(test => {
+            const actual = sumOrMinus(...test.args);
+            const isEven = test.args.length % 2 === 0;
+            const opText = isEven ? "Сума (парна к-сть)" : "Віднімання від кінця";
+
+            const row = `<tr>
+                <td class="code-cell">${test.call}</td>
+                <td>${test.args.length}</td>
+                <td>${opText}</td>
+                <td class="status-ok">${actual}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    </script>
+
+</body>
+</html>
+
